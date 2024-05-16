@@ -1,8 +1,8 @@
-# Install script for directory: D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine
+# Install script for directory: C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,10 +34,10 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/src/cmake_install.cmake")
-  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/glfw/cmake_install.cmake")
-  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/glm/cmake_install.cmake")
-  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/imgui/cmake_install.cmake")
+  include("C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/src/cmake_install.cmake")
+  include("C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/glfw/cmake_install.cmake")
+  include("C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/glm/cmake_install.cmake")
+  include("C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/imgui/cmake_install.cmake")
 
 endif()
 
@@ -49,5 +49,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

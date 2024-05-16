@@ -1,8 +1,8 @@
-# Install script for directory: D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/include/glfw/docs
+# Install script for directory: C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/include/glfw/docs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -30,5 +30,9 @@ endif()
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/GLFW" TYPE DIRECTORY FILES "C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/glfw/docs/html")
 endif()
 

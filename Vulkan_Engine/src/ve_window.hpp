@@ -1,31 +1,30 @@
 #pragma once
 
-#include "GLFW/glfw3.h"
-#include <string>
+#include "main.hpp"
 
 namespace ve {
 
 class ve_window {
 
 public:
-    ve_window(const int height, const int width, const std::string& name);
+    ve_window(const int height, const int width, const std::string& name, VkInstance* pvkInstance, VkSurfaceKHR* surface);
     ~ve_window();
 
-    void mainLoop();
-
+    void windowLoop();
 
 private:
 
-    void initWindow();
+    void createWindow();
+    void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
+
 
     const int width;
     const int height;
+    const std::string windowName;
 
-    std::string windowName;
-    GLFWwindow *window;
-
+    GLFWwindow* window;
+    VkInstance* pvkInstance;
+    VkSurfaceKHR* psurface;
 };
-
-
 }
 

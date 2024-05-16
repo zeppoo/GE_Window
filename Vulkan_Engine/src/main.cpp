@@ -1,4 +1,4 @@
-#include "ve_window.hpp"
+#include "ve_engine.hpp"
 
 #include <iostream>
 #include <cstdlib>
@@ -6,10 +6,10 @@
 
 int main()
 {
-	ve::ve_window newWindow{800, 600, "Vulkan Window"};
+	ve::ve_engine vulkanEngine{ 800, 600, "Vulkan Window" };
 
 	try {
-	newWindow.mainLoop();
+		vulkanEngine.initEngine();
 	} catch (const std::exception &e)
 	{
 		std::cerr << e.what() << '\n';
@@ -17,5 +17,4 @@ int main()
 	}
 
 	return EXIT_SUCCESS;
-
 }

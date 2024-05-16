@@ -1,7 +1,7 @@
-prefix=D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-debug
+prefix=C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-Debug
 exec_prefix=${prefix}
-includedir=D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-debug/include
-libdir=D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-debug/lib
+includedir=C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-Debug/include
+libdir=C:/Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/install/x64-Debug/lib
 
 Name: GLFW
 Description: A multi-platform library for OpenGL, window and input
