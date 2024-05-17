@@ -9,7 +9,7 @@ int main()
 	ve::ve_engine vulkanEngine{ 800, 600, "Vulkan Window" };
 
 	try {
-		vulkanEngine.initEngine();
+		vulkanEngine.initEngine(&vulkanEngine);
 	} catch (const std::exception &e)
 	{
 		std::cerr << e.what() << '\n';

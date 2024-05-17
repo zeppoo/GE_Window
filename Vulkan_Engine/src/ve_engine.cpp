@@ -42,25 +42,19 @@ namespace ve
 		vkDestroyInstance(vkInstance, nullptr);
 	}
 
-	void ve_engine::initEngine()
+	void ve_engine::initEngine(ve_engine* vkEngine)
 	{
-		//Create Pointers to engine
-		VkInstance* pvkInstance = &vkInstance;
-		VkSurfaceKHR* psurface = &surface;
-		VkPhysicalDevice* pphysicDevice = &physicDevice;
-		VkDevice* pdevice = &device;
-		VkQueue* pgraphicsQueue = &graphicsQueue;
-		const std::vector<const char*>* pvalidationLayers = &validationLayers;
-		const bool* penableValidationLayers = &enableValidationLayers;
+		// Create Window
+		ve_window window{ WIN_WIDTH, WIN_HEIGHT, NAME , &vkInstance, &surface };
 
 		// Get GPU
-		ve_physicDevice physicalDevice{pvkInstance, pphysicDevice};
+		ve_physicDevice physicalDevice{};
+		physicalDevice.pickPhysicalDevice(&vkInstance, &physicDevice, &surface);
 
 		// Create Logical Device
-		ve_logicDevice logicalDevice{pdevice, pgraphicsQueue, pphysicDevice, penableValidationLayers, pvalidationLayers};
+		ve_logicDevice logicalDevice{};
+		logicalDevice.createLogicalDevice(&device, &graphicsQueue, &presentQueue, &physicDevice, &enableValidationLayers, &validationLayers, &surface);
 
-		// Create Window
-		ve_window window{ WIN_WIDTH, WIN_HEIGHT, NAME , pvkInstance, &surface };
 		window.windowLoop();
 	}
 

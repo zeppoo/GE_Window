@@ -3,14 +3,8 @@
 #include <vector>
 
 namespace ve {
-    
-    ve_physicDevice::ve_physicDevice(VkInstance* pvkInstance, VkPhysicalDevice* pphysicDevice)
-    {
-        pickPhysicalDevice(pvkInstance, pphysicDevice);
-    }
 
-
-    void ve_physicDevice::pickPhysicalDevice(VkInstance* pvkInstance, VkPhysicalDevice* pphysicDevice) {
+    void ve_physicDevice::pickPhysicalDevice(VkInstance* pvkInstance, VkPhysicalDevice* pphysicDevice, VkSurfaceKHR* psurface) {
         uint32_t deviceCount = 0;
         vkEnumeratePhysicalDevices(*pvkInstance, &deviceCount, nullptr);
         if (deviceCount == 0) {
@@ -21,7 +15,7 @@ namespace ve {
         vkEnumeratePhysicalDevices(*pvkInstance, &deviceCount, devices.data());
 
         for (const auto& device : devices) {
-            if (isDeviceSuitable(device)) {
+            if (isDeviceSuitable(device, *psurface)) {
                 *pphysicDevice = device;
                 break;
             }

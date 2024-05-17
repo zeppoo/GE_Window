@@ -2,34 +2,29 @@
 
 namespace ve {
 
-	ve_logicDevice::ve_logicDevice(VkDevice* pdevice, VkQueue* pgraphicsQueue, VkPhysicalDevice* pphysicDevice, const bool* enableValidationLayers, const std::vector<const char*>* validationLayers)
-	{
-        createLogicalDevice(pdevice, pgraphicsQueue, pphysicDevice, enableValidationLayers, validationLayers);
-	}
+    void ve_logicDevice::createLogicalDevice(VkDevice* pdevice, VkQueue* pgraphicsQueue, VkQueue* ppresentQueue,  VkPhysicalDevice* pphysicDevice, const bool* enableValidationLayers, const std::vector<const char*>* validationLayers, VkSurfaceKHR* psurface) {
 
-	ve_logicDevice::~ve_logicDevice()
-	{
+        QueueFamilyIndices indices = findQueueFamilies(*pphysicDevice, *psurface);
 
-	}
-
-    void ve_logicDevice::createLogicalDevice(VkDevice* pdevice, VkQueue* pgraphicsQueue, VkPhysicalDevice* pphysicDevice, const bool* enableValidationLayers, const std::vector<const char*>* validationLayers) {
-
-        QueueFamilyIndices indices = findQueueFamilies(*pphysicDevice);
-
-        VkDeviceQueueCreateInfo queueCreateInfo{};
-        queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-        queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
-        queueCreateInfo.queueCount = 1;
+        std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+        std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(), indices.presentFamily.value()};
 
         float queuePriority = 1.0f;
-        queueCreateInfo.pQueuePriorities = &queuePriority;
+        for (uint32_t queueFamily : uniqueQueueFamilies) {
+            VkDeviceQueueCreateInfo queueCreateInfo{};
+            queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            queueCreateInfo.queueFamilyIndex = queueFamily;
+            queueCreateInfo.queueCount = 1;
+            queueCreateInfo.pQueuePriorities = &queuePriority;
+            queueCreateInfos.push_back(queueCreateInfo);
+        }
 
         VkPhysicalDeviceFeatures deviceFeatures{};
 
         VkDeviceCreateInfo createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-        createInfo.pQueueCreateInfos = &queueCreateInfo;
-        createInfo.queueCreateInfoCount = 1;
+        createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+        createInfo.pQueueCreateInfos = queueCreateInfos.data();
         createInfo.pEnabledFeatures = &deviceFeatures;
 
         createInfo.enabledExtensionCount = 0;
@@ -46,5 +41,6 @@ namespace ve {
         }
 
         vkGetDeviceQueue(*pdevice, indices.graphicsFamily.value(), 0, pgraphicsQueue);
+        vkGetDeviceQueue(*pdevice, indices.presentFamily.value(), 0, ppresentQueue);
     }
 }

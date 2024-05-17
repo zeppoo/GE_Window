@@ -4,8 +4,8 @@ namespace ve {
 
     ve_window::ve_window(const int width, const int height, const std::string& name, VkInstance* pvkInstance, VkSurfaceKHR* psurface) : width{width}, height{height}, windowName{name}, pvkInstance{pvkInstance}, psurface{psurface}
     {
-        createWindow();
         try {
+            createWindow();
             createWindowSurface(*pvkInstance, psurface);
         }
         catch (const std::exception&) {

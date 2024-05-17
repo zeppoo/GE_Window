@@ -11,7 +11,7 @@ namespace ve
 		ve_engine(const int w, const int h, const std::string name);
 		~ve_engine();
 
-		void initEngine();
+		void initEngine(ve_engine* vkEngine);
 
 	private:
 
@@ -39,9 +39,10 @@ namespace ve
 		VkSurfaceKHR surface;// Vk Rendering Surface
 		VkPhysicalDevice physicDevice = VK_NULL_HANDLE;// Physical GPU Reference
 		VkDevice device;// Virtual Vk GPU reference
-		VkQueue graphicsQueue;// Family Queue reference
 
-
+		// Vulkan Queues instances
+		VkQueue graphicsQueue;// Queue for rendering
+		VkQueue presentQueue;// Queue for presenting rendered frames
 	};
 
 }

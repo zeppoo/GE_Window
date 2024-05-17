@@ -2,14 +2,14 @@
 
 namespace ve 
 {
-    bool isDeviceSuitable(VkPhysicalDevice device) {
-        QueueFamilyIndices indices = findQueueFamilies(device);
+    bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface) {
+        QueueFamilyIndices indices = findQueueFamilies(device, surface);
 
         return indices.graphicsFamily.has_value();
     }
 
 
-	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) {
+	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface) {
         QueueFamilyIndices indices;
         
         uint32_t queueFamilyCount = 0;
@@ -22,6 +22,8 @@ namespace ve
         for (const auto& queueFamily : queueFamilies) {
             if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
                 indices.graphicsFamily = i;
+                VkBool32 presentSupport = false;
+                vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
             }
 
             if (indices.isComplete()) {
