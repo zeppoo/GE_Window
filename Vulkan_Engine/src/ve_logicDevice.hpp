@@ -1,29 +1,20 @@
 #pragma once
 
 #include "main.hpp"
-#include <optional>
-#include <vector>
-
+#include "ve_queueFamily.hpp"
 
 namespace ve {
-
-struct QueueFamilyIndices {
-	std::optional<uint32_t> graphicsFamily;
-};
 
 class ve_logicDevice
 {
 public:
-	ve_logicDevice(VkDevice* pdevice, VkQueue* pgraphicsQueue, VkPhysicalDevice* pphysicDevice);
+	ve_logicDevice(VkDevice* pdevice, VkQueue* pgraphicsQueue, VkPhysicalDevice* pphysicDevice, const bool* enableValidationLayers, const std::vector<const char*>* validationLayers);
 	~ve_logicDevice();
 
 
 private:
-	void createLogicalDevice(VkDevice* pdevice, VkQueue* pgraphicsQueue, VkPhysicalDevice* pphysicDevice);
+	void createLogicalDevice(VkDevice* pdevice, VkQueue* pgraphicsQueue, VkPhysicalDevice* pphysicDevice, const bool* enableValidationLayers, const std::vector<const char*>* validationLayers);
 
-	bool isDeviceSuitable(VkPhysicalDevice device);
-
-	uint32_t findQueueFamilies(VkPhysicalDevice device);
 };
 
 }

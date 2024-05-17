@@ -1,6 +1,7 @@
 #pragma once
 
 #include "main.hpp"
+#include <vector>
 
 namespace ve
 {
@@ -8,6 +9,7 @@ namespace ve
 	{
 	public:
 		ve_engine(const int w, const int h, const std::string name);
+		~ve_engine();
 
 		void initEngine();
 
@@ -15,16 +17,31 @@ namespace ve
 
 		void initGLFW();
 		void initVULKAN();
+		bool checkValidationLayerSupport();
+		std::vector<const char*> getRequiredExtensions();
+		void setupDebugMessenger();
 
+		// Window Data
 		const int WIN_WIDTH;
 		const int WIN_HEIGHT;
-
 		const std::string NAME;
-		VkInstance vkInstance;
-		VkSurfaceKHR surface;
-		VkPhysicalDevice physicDevice = VK_NULL_HANDLE;
-		VkDevice device;
-		VkQueue graphicsQueue;
+
+		#ifdef NDEBUG // NDEBUG = No Debug
+			const bool enableValidationLayers = false;
+		#else
+			const bool enableValidationLayers = true;
+		#endif
+
+		VkDebugUtilsMessengerEXT debugMessenger;// Vulkan Debug Messenger Extension instance
+
+		VkInstance vkInstance;// Vk Api instance
+		const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
+		VkSurfaceKHR surface;// Vk Rendering Surface
+		VkPhysicalDevice physicDevice = VK_NULL_HANDLE;// Physical GPU Reference
+		VkDevice device;// Virtual Vk GPU reference
+		VkQueue graphicsQueue;// Family Queue reference
+
+
 	};
 
 }
