@@ -16,7 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add scripts
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-add_executable(Vulkan_Engine ${SOURCES})
+add_executable(Vulkan_Engine ${SOURCES} "src/VulkanSetup/ve_configuration.cpp")
 
 # Find SubFolders
 add_subdirectory ("lib/glfw")

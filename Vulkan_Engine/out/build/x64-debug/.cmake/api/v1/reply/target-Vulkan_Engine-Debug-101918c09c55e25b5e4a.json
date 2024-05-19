@@ -215,6 +215,12 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
+			"path" : "src/VulkanSetup/ve_configuration.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
 			"path" : "src/VulkanSetup/ve_debugMessenger.cpp",
 			"sourceGroupIndex" : 0
 		},
@@ -258,12 +264,6 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/main.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "src/ve_configuration.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

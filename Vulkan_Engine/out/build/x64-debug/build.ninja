@@ -49,6 +49,14 @@ cmake_ninja_workdir = D$:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\out\b
 
 build cmake_object_order_depends_target_Vulkan_Engine: phony || cmake_object_order_depends_target_glfw cmake_object_order_depends_target_glm cmake_object_order_depends_target_imgui
 
+build CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_configuration.cpp.obj: CXX_COMPILER__Vulkan_Engine_unscanned_Debug D$:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\src\VulkanSetup\ve_configuration.cpp || cmake_object_order_depends_target_Vulkan_Engine
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17 -ZI
+  INCLUDES = -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\glfw\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\glm -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\imgui -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\glfw\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\glm -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\imgui -external:IC:\VulkanSDK\1.3.280.0\Include -external:W0
+  OBJECT_DIR = CMakeFiles\Vulkan_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup
+  TARGET_COMPILE_PDB = CMakeFiles\Vulkan_Engine.dir\
+  TARGET_PDB = Vulkan_Engine.pdb
+
 build CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_debugMessenger.cpp.obj: CXX_COMPILER__Vulkan_Engine_unscanned_Debug D$:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\src\VulkanSetup\ve_debugMessenger.cpp || cmake_object_order_depends_target_Vulkan_Engine
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17 -ZI
   INCLUDES = -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\glfw\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\glm -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\imgui -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\glfw\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\glm -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\imgui -external:IC:\VulkanSDK\1.3.280.0\Include -external:W0
@@ -113,14 +121,6 @@ build CMakeFiles\Vulkan_Engine.dir\src\main.cpp.obj: CXX_COMPILER__Vulkan_Engine
   TARGET_COMPILE_PDB = CMakeFiles\Vulkan_Engine.dir\
   TARGET_PDB = Vulkan_Engine.pdb
 
-build CMakeFiles\Vulkan_Engine.dir\src\ve_configuration.cpp.obj: CXX_COMPILER__Vulkan_Engine_unscanned_Debug D$:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\src\ve_configuration.cpp || cmake_object_order_depends_target_Vulkan_Engine
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17 -ZI
-  INCLUDES = -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\glfw\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\glm -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\libs\imgui -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\glfw\include -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\glm -ID:\Rein\Coding\C++\Projects\GE_Window\Vulkan_Engine\lib\imgui -external:IC:\VulkanSDK\1.3.280.0\Include -external:W0
-  OBJECT_DIR = CMakeFiles\Vulkan_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\Vulkan_Engine.dir\src
-  TARGET_COMPILE_PDB = CMakeFiles\Vulkan_Engine.dir\
-  TARGET_PDB = Vulkan_Engine.pdb
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Vulkan_Engine
@@ -129,7 +129,7 @@ build CMakeFiles\Vulkan_Engine.dir\src\ve_configuration.cpp.obj: CXX_COMPILER__V
 #############################################
 # Link the executable Vulkan_Engine.exe
 
-build Vulkan_Engine.exe: CXX_EXECUTABLE_LINKER__Vulkan_Engine_Debug CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_debugMessenger.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_engine.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_logicDevice.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_physicDevice.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_queueFamily.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_swapChain.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_window.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\main.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\ve_configuration.cpp.obj | lib\glfw\src\glfw3.lib lib\glm\glm\glm.lib lib\imgui\imgui.lib C$:\VulkanSDK\1.3.280.0\Lib\vulkan-1.lib lib\glfw\src\glfw3.lib C$:\VulkanSDK\1.3.280.0\Lib\vulkan-1.lib || lib\glfw\src\glfw3.lib lib\glm\glm\glm.lib lib\imgui\imgui.lib
+build Vulkan_Engine.exe: CXX_EXECUTABLE_LINKER__Vulkan_Engine_Debug CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_configuration.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_debugMessenger.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_engine.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_logicDevice.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_physicDevice.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_queueFamily.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_swapChain.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\VulkanSetup\ve_window.cpp.obj CMakeFiles\Vulkan_Engine.dir\src\main.cpp.obj | lib\glfw\src\glfw3.lib lib\glm\glm\glm.lib lib\imgui\imgui.lib C$:\VulkanSDK\1.3.280.0\Lib\vulkan-1.lib lib\glfw\src\glfw3.lib C$:\VulkanSDK\1.3.280.0\Lib\vulkan-1.lib || lib\glfw\src\glfw3.lib lib\glm\glm\glm.lib lib\imgui\imgui.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = lib\glfw\src\glfw3.lib  lib\glm\glm\glm.lib  lib\imgui\imgui.lib  C:\VulkanSDK\1.3.280.0\Lib\vulkan-1.lib  lib\glfw\src\glfw3.lib  C:\VulkanSDK\1.3.280.0\Lib\vulkan-1.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
