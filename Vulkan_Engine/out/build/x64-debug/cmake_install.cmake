@@ -34,10 +34,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/src/cmake_install.cmake")
-  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/glfw/cmake_install.cmake")
-  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/glm/cmake_install.cmake")
-  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/include/imgui/cmake_install.cmake")
+  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/lib/glfw/cmake_install.cmake")
+  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/lib/glm/cmake_install.cmake")
+  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/lib/imgui/cmake_install.cmake")
 
 endif()
 

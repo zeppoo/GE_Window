@@ -32,3 +32,9 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/out/build/x64-debug/src/VulkanSetup/cmake_install.cmake")
+
+endif()
+

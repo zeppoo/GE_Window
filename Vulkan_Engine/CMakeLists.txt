@@ -11,20 +11,32 @@ endif()
 
 project ("Vulkan_Engine")
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Add scripts
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+add_executable(Vulkan_Engine ${SOURCES})
+
 # Find SubFolders
-add_subdirectory ("src")
-add_subdirectory ("include/glfw")
-add_subdirectory ("include/glm")
-add_subdirectory("include/imgui")
+add_subdirectory ("lib/glfw")
+add_subdirectory ("lib/glm")
+add_subdirectory("lib/imgui")
 
 # Find Vulkan package
 find_package(Vulkan REQUIRED)
 
+# Include directories for Vulkan, GLFW, and GLM
+target_include_directories(Vulkan_Engine PRIVATE
+    include
+    libs/glfw/include
+    libs/glm
+    libs/imgui
+    ${Vulkan_INCLUDE_DIRS}
+)
+
 # Link libraries to Project
-target_link_libraries (Vulkan_Engine glfw)
-target_link_libraries (Vulkan_Engine glm)
-target_link_libraries (Vulkan_Engine imgui)
-target_link_libraries(Vulkan_Engine Vulkan::Vulkan)
+target_link_libraries(Vulkan_Engine PRIVATE glfw glm imgui Vulkan::Vulkan)
 
 # Give imgui access to libraries
 target_include_directories(imgui PRIVATE ${Vulkan_INCLUDE_DIRS})
