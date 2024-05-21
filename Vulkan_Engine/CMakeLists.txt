@@ -9,14 +9,18 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project ("Vulkan_Engine")
+project("Vulkan_Engine")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+
+# Set Source Files
+file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
+
 # Add scripts
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-add_executable(Vulkan_Engine ${SOURCES} "src/VulkanSetup/ve_configuration.cpp")
+add_executable(Vulkan_Engine ${SOURCE_FILES}
+        include/ve_pipeline.hpp)
 
 # Find SubFolders
 add_subdirectory ("lib/glfw")

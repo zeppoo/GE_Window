@@ -32,6 +32,7 @@ namespace ve {
         std::vector<const char*> deviceExtensions  = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
         std::vector<VkImage> swapChainImages;// VkImages stored in the swapchain
         std::vector<VkImageView> swapChainImageViews; // A way to grab VkImage data
+    	std::vector<VkDynamicState> dynamicStates;
 
 
         #ifdef NDEBUG // NDEBUG = No Debug

@@ -58,6 +58,11 @@ namespace ve
 
 		createSwapChain(config);
 
+		createImageViews(config);
+
+		ve_pipeline pipeline{config};
+		pipeline.createGraphicsPipeline();
+
 		window.windowLoop();
 	}
 

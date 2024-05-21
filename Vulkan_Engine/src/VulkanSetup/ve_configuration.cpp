@@ -21,7 +21,8 @@ namespace ve {
     validationLayers({"VK_LAYER_KHRONOS_validation"}), // Default validation layers
     deviceExtensions({VK_KHR_SWAPCHAIN_EXTENSION_NAME}), // Default device extensions
     swapChainImages({VK_NULL_HANDLE}),
-    swapChainImageViews({VK_NULL_HANDLE})
+    swapChainImageViews({VK_NULL_HANDLE}),
+	dynamicStates({VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR})
 {}
 
 }
