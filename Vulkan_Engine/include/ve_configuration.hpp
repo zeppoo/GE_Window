@@ -12,10 +12,10 @@ namespace ve {
     class ve_configuration 
     {
     public:
-        ve_configuration(const int w, const int h, const std::string name);
+        ve_configuration(const uint32_t w, const uint32_t h, const std::string name);
 
-        int WIN_WIDTH;// Window Height
-        int WIN_HEIGHT;// Window Width
+        uint32_t WIN_WIDTH;// Window Height
+        uint32_t WIN_HEIGHT;// Window Width
         std::string NAME;// Window name
         GLFWwindow* window;// GLFW window reference (pointer)
         VkInstance vkInstance; // Vk Api instance
@@ -28,7 +28,9 @@ namespace ve {
         VkExtent2D swapChainExtent;// To cache our surface extent
         VkQueue graphicsQueue;// Queue for rendering images
         VkQueue presentQueue;// Queue for presenting rendered frames
+    	VkRenderPass renderPass;
         VkPipelineLayout pipelineLayout;
+    	VkPipeline graphicsPipeline;
         std::vector<const char*> validationLayers  = { "VK_LAYER_KHRONOS_validation" };// Some default validation Layers from Khronos
         std::vector<const char*> deviceExtensions  = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
         std::vector<VkImage> swapChainImages;// VkImages stored in the swapchain

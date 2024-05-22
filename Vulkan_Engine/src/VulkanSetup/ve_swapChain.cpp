@@ -32,17 +32,20 @@ namespace ve
         return details;
     }
 
-    void createSwapChain(ve_configuration& config) 
+    ve_swapChain::ve_swapChain(ve_configuration &config) : config{config} {}
+
+
+    void ve_swapChain::createSwapChain()
     {
         SwapChainSupportDetails swapChainSupport = querySwapChainSupport(config.physicDevice, config.surface);
 
         VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
         VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
-        VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities, config.window);
+        VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 
         uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
 
-        if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) 
+        if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
         {
             imageCount = swapChainSupport.capabilities.maxImageCount;
         }
@@ -76,7 +79,7 @@ namespace ve
         config.swapChainExtent = extent;
     }
 
-    VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) 
+    VkSurfaceFormatKHR ve_swapChain::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
     {
         for (const auto& availableFormat : availableFormats) 
         {
@@ -84,11 +87,10 @@ namespace ve
                 return availableFormat;
             }
         }
-
         return availableFormats[0];
     }
 
-    VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) 
+    VkPresentModeKHR ve_swapChain::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
     {
         for (const auto& availablePresentMode : availablePresentModes) 
         {
@@ -100,12 +102,12 @@ namespace ve
         return VK_PRESENT_MODE_FIFO_KHR;
     }
 
-    VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window) {
+    VkExtent2D ve_swapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities) {
     if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
         return capabilities.currentExtent;
     } else {
         int width, height;
-        glfwGetFramebufferSize(window, &width, &height);
+        glfwGetFramebufferSize(config.window, &width, &height);
 
         VkExtent2D actualExtent = {
             static_cast<uint32_t>(width),
@@ -119,7 +121,7 @@ namespace ve
     }
 }
 
-    void createImageViews(ve_configuration& config) 
+    void ve_swapChain::createImageViews()
     {
         config.swapChainImageViews.resize(config.swapChainImages.size());
         for (size_t i = 0; i < config.swapChainImages.size(); i++) {

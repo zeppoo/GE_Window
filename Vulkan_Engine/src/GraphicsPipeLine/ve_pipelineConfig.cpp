@@ -1,4 +1,4 @@
-#include "vePipelineConfig.hpp"
+#include "ve_pipelineConfig.hpp"
 
 namespace ve {
 
@@ -14,7 +14,7 @@ namespace ve {
         //Input Assembly State Configuration
         createInputAssemblyStateInfo(configInfo.inputAssemblyInfo);
         //ViewPort State Configuration
-        createViewPortStateInfo(configInfo.viewportInfo, configInfo.viewport, configInfo.scissor);
+        createViewPortStateInfo( configInfo.viewport, configInfo.scissor);
         //Rasterization State Configuration
         createRasterizationStateInfo(configInfo.rasterizationInfo);
         //MultiSampling State Configuration
@@ -49,13 +49,17 @@ namespace ve {
         inputAssembly.primitiveRestartEnable = VK_FALSE;
     }
 
-    void ve_pipelineConfig::createViewPortStateInfo(VkPipelineViewportStateCreateInfo& viewportInfo, VkViewport& viewport, VkRect2D& scissor)
+    void ve_pipelineConfig::createViewPortStateInfo(VkViewport& viewport, VkRect2D& scissor)
     {
-        viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-        viewportInfo.viewportCount = 1;
-        viewportInfo.pViewports = &viewport;
-        viewportInfo.scissorCount = 1;
-        viewportInfo.pScissors = &scissor;
+        viewport.x = 0.0f;
+        viewport.y = 0.0f;
+        viewport.width = static_cast<float>(config.WIN_WIDTH);
+        viewport.height = static_cast<float>(config.WIN_HEIGHT);
+        viewport.minDepth = 0.0f;
+        viewport.maxDepth = 1.0f;
+
+        scissor.offset = {0, 0};
+        scissor.extent = {config.WIN_WIDTH, config.WIN_HEIGHT};
     }
 
     void ve_pipelineConfig::createRasterizationStateInfo(VkPipelineRasterizationStateCreateInfo& rasterizationInfo)
@@ -105,6 +109,4 @@ namespace ve {
         colorBlendInfo.blendConstants[2] = 0.0f; // Optional
         colorBlendInfo.blendConstants[3] = 0.0f; // Optional
     }
-
-
 }

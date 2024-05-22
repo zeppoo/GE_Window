@@ -2,7 +2,7 @@
 
 namespace ve {
 	
-	ve_configuration::ve_configuration(const int w, const int h, const std::string name)
+	ve_configuration::ve_configuration(const uint32_t w, const uint32_t h, const std::string name)
     : 
     WIN_WIDTH{w}, // Default width
     WIN_HEIGHT{h}, // Default height
@@ -18,6 +18,8 @@ namespace ve {
     swapChainExtent(),// Default swap chain
     graphicsQueue(VK_NULL_HANDLE), // Default graphics queue
     presentQueue(VK_NULL_HANDLE), // Default present queue
+	renderPass(VK_NULL_HANDLE),
+	graphicsPipeline(VK_NULL_HANDLE),
     pipelineLayout(VK_NULL_HANDLE),
     validationLayers({"VK_LAYER_KHRONOS_validation"}), // Default validation layers
     deviceExtensions({VK_KHR_SWAPCHAIN_EXTENSION_NAME}), // Default device extensions

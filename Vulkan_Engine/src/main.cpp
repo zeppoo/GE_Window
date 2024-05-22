@@ -1,6 +1,5 @@
 #include "ve_configuration.hpp"
 #include "ve_engine.hpp"
-
 #include <iostream>
 #include <cstdlib>
 #include <stdexcept>
@@ -13,6 +12,7 @@ int main()
 
 	try {
 		vulkanEngine.initEngine(&vulkanEngine);
+
 	} catch (const std::exception &e)
 	{
 		std::cerr << "Error in main: " << e.what() << '\n';

@@ -7,6 +7,8 @@
 #include "ve_logicDevice.hpp"
 #include "ve_swapChain.hpp"
 #include "ve_pipeline.hpp"
+#include "ve_pipelineConfig.hpp"
+#include "ve_renderPass.hpp"
 #include <cstring>
 
 namespace ve
