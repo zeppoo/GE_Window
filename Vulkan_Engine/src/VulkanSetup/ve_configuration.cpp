@@ -18,6 +18,7 @@ namespace ve {
     swapChainExtent(),// Default swap chain
     graphicsQueue(VK_NULL_HANDLE), // Default graphics queue
     presentQueue(VK_NULL_HANDLE), // Default present queue
+    pipelineLayout(VK_NULL_HANDLE),
     validationLayers({"VK_LAYER_KHRONOS_validation"}), // Default validation layers
     deviceExtensions({VK_KHR_SWAPCHAIN_EXTENSION_NAME}), // Default device extensions
     swapChainImages({VK_NULL_HANDLE}),

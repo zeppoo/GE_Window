@@ -60,8 +60,8 @@ namespace ve
 
 		createImageViews(config);
 
-		ve_pipeline pipeline{config};
-		pipeline.createGraphicsPipeline();
+		//ve_pipeline pipeline{config};
+		//pipeline.createGraphicsPipeline();
 
 		window.windowLoop();
 	}

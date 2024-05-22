@@ -28,6 +28,7 @@ namespace ve {
         VkExtent2D swapChainExtent;// To cache our surface extent
         VkQueue graphicsQueue;// Queue for rendering images
         VkQueue presentQueue;// Queue for presenting rendered frames
+        VkPipelineLayout pipelineLayout;
         std::vector<const char*> validationLayers  = { "VK_LAYER_KHRONOS_validation" };// Some default validation Layers from Khronos
         std::vector<const char*> deviceExtensions  = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
         std::vector<VkImage> swapChainImages;// VkImages stored in the swapchain
