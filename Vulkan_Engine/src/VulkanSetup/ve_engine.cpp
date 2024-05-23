@@ -59,10 +59,10 @@ namespace ve
 		// Instantiate Swapchain
 		ve_swapChain swap_chain{config};
 		swap_chain.createSwapChain();
+		swap_chain.createRenderPass();
 
-		ve::ve_pipeline vulkanPipeline{ config};
-
-        ve::PipelineConfigInfo pipelineInfo = vulkanPipeline.createPipelineConfiguration();
+		ve_pipeline vulkanPipeline{ config};
+        PipelineConfigInfo pipelineInfo = vulkanPipeline.createPipelineConfiguration();
 		vulkanPipeline.createGraphicsPipeline(pipelineInfo);
 
 		window.windowLoop();

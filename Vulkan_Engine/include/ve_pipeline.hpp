@@ -6,6 +6,8 @@
 namespace ve
 {
     struct PipelineConfigInfo {
+        VkViewport viewport;
+        VkRect2D scissor;
         VkPipelineDynamicStateCreateInfo dynamicState;
         VkPipelineVertexInputStateCreateInfo vertexInputInfo;
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
@@ -26,19 +28,10 @@ namespace ve
         PipelineConfigInfo createPipelineConfiguration();
 
 	private:
-        void createShaderStages(VkPipelineShaderStageCreateInfo vertShaderStageInfo, VkPipelineShaderStageCreateInfo fragShaderStageInfo);
         static std::vector<char> readFile(const std::string& filename);
         VkShaderModule createShaderModule(const std::vector<char>& code);
-
-        VkPipelineDynamicStateCreateInfo createDynamicStateInfo();
-        VkPipelineVertexInputStateCreateInfo createVertexInputStateInfo();
-        VkPipelineInputAssemblyStateCreateInfo createInputAssemblyStateInfo();
-        VkPipelineViewportStateCreateInfo createViewPortStateInfo();
-        VkPipelineRasterizationStateCreateInfo createRasterizationStateInfo();
-        VkPipelineMultisampleStateCreateInfo createMultiSamplingStateInfo();
-        VkPipelineColorBlendAttachmentState createColorBlendAttachmentStateInfo();
-        VkPipelineColorBlendStateCreateInfo createColorBlendStateInfo();
-        void createPipelineLayout(VkPipelineLayout pipelineLayout);
+        VkPipelineShaderStageCreateInfo createVertShaderStageInfo(VkShaderModule module);
+        VkPipelineShaderStageCreateInfo createFragShaderStageInfo(VkShaderModule module);
 
 		ve_configuration& config;
         VkShaderModule vertShaderModule;
