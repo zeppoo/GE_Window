@@ -36,7 +36,8 @@ namespace ve
         vkDestroyImageView(config.logicDevice, imageView, nullptr);
 		}
 
-		vkDestroyPipeline(config.logicDevice, config.graphicsPipeline, nullptr);
+        vkDestroyPipeline(config.logicDevice, config.graphicsPipeline, nullptr);
+		vkDestroyPipelineLayout(config.logicDevice, config.pipelineLayout, nullptr);
 		vkDestroyRenderPass(config.logicDevice, config.renderPass, nullptr);
 		vkDestroySwapchainKHR(config.logicDevice, config.swapChain, nullptr);
 		vkDestroyDevice(config.logicDevice, nullptr);
@@ -50,25 +51,18 @@ namespace ve
 		// Create Window
 		ve_window window{ config };
 
-		// Get GPU
-		ve_physicDevice physical_Device{config};
-		physical_Device.pickPhysicalDevice();
-
-		// Create Logical Device
-		ve_logicDevice logical_Device{config};
-		logical_Device.createLogicalDevice();
+		// Gets GPU and creates Logical Device
+        ve_device device{config};
+        device.pickPhysicalDevice();// first
+        device.createLogicalDevice();// second
 
 		// Instantiate Swapchain
 		ve_swapChain swap_chain{config};
 		swap_chain.createSwapChain();
 
-		ve_renderPass render_pass{config};
-		render_pass.createRenderPass();
+		ve::ve_pipeline vulkanPipeline{ config};
 
-		ve::ve_pipelineConfig pipelineConfig{config};
-		ve::PipelineConfigInfo pipelineInfo = pipelineConfig.createPipelineConfiguration();
-
-		ve::ve_pipeline vulkanPipeline{ config,  pipelineInfo};
+        ve::PipelineConfigInfo pipelineInfo = vulkanPipeline.createPipelineConfiguration();
 		vulkanPipeline.createGraphicsPipeline(pipelineInfo);
 
 		window.windowLoop();

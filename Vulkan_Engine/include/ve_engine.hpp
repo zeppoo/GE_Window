@@ -3,12 +3,9 @@
 #include "ve_configuration.hpp"
 #include "ve_debugMessenger.hpp"
 #include "ve_window.hpp"
-#include "ve_physicDevice.hpp"
-#include "ve_logicDevice.hpp"
+#include "ve_device.hpp"
 #include "ve_swapChain.hpp"
 #include "ve_pipeline.hpp"
-#include "ve_pipelineConfig.hpp"
-#include "ve_renderPass.hpp"
 #include <cstring>
 
 namespace ve

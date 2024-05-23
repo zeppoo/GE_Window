@@ -21,8 +21,7 @@ file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 # Add scripts
 add_executable(Vulkan_Engine ${SOURCE_FILES}
         include/ve_pipeline.hpp
-        include/ve_pipelineConfig.hpp
-        include/ve_renderPass.hpp)
+        include/ve_device.hpp)
 
 # Find SubFolders
 add_subdirectory ("lib/glfw")

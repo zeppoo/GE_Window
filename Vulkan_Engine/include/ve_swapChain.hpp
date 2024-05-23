@@ -13,6 +13,7 @@ namespace ve
     std::vector<VkPresentModeKHR> presentModes;
 
     };
+
     SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface);
 
 
@@ -21,17 +22,15 @@ namespace ve
 		ve_swapChain(ve_configuration& config);
 
 		void createSwapChain();
+        void createImageViews();
+        void createRenderPass();
 
 	private:
 		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 		VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
-		void createImageViews();
-		void createRenderPass();
-
 
 		ve_configuration& config;
-
 	};
 
 
