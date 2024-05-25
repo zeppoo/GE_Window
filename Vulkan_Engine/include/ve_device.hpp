@@ -14,18 +14,23 @@ namespace ve
         }
     };
 
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicDevice, VkSurfaceKHR surface);
+
     class ve_device
     {
     public:
         ve_device(ve_configuration& config);
-
         void pickPhysicalDevice();
         void createLogicalDevice();
+        void createCommandPool();
+        void createCommandBuffer();
+        void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+        void createSyncObjects();
+        void drawFrame();
 
     private:
         bool isDeviceSuitable(VkPhysicalDevice device);
         bool checkDeviceExtensionSupport(VkPhysicalDevice physicDevice);
-        QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicDevice);
 
         ve_configuration& config;
     };

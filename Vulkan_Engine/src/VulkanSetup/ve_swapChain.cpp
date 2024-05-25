@@ -1,4 +1,5 @@
 #include "ve_swapChain.hpp"
+#include "ve_device.hpp"
 
 #include <cstdint> // Necessary for uint32_t
 #include <limits> // Necessary for std::numeric_limits
@@ -43,9 +44,7 @@ namespace ve
         VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 
         uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
-
-        if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
-        {
+        if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) {
             imageCount = swapChainSupport.capabilities.maxImageCount;
         }
 
@@ -59,21 +58,33 @@ namespace ve
         createInfo.imageExtent = extent;
         createInfo.imageArrayLayers = 1;
         createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+        QueueFamilyIndices indices = findQueueFamilies(config.physicDevice, config.surface);
+        uint32_t queueFamilyIndices[] = {indices.graphicsFamily.value(), indices.presentFamily.value()};
+
+        if (indices.graphicsFamily != indices.presentFamily) {
+            createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+            createInfo.queueFamilyIndexCount = 2;
+            createInfo.pQueueFamilyIndices = queueFamilyIndices;
+        } else {
+            createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        }
+
         createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
-        createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
+        createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
         createInfo.presentMode = presentMode;
         createInfo.clipped = VK_TRUE;
+
         createInfo.oldSwapchain = VK_NULL_HANDLE;
 
         if (vkCreateSwapchainKHR(config.logicDevice, &createInfo, nullptr, &config.swapChain) != VK_SUCCESS) {
-        throw std::runtime_error("failed to create swap chain!");
+            throw std::runtime_error("failed to create swap chain!");
         }
 
         vkGetSwapchainImagesKHR(config.logicDevice, config.swapChain, &imageCount, nullptr);
         config.swapChainImages.resize(imageCount);
         vkGetSwapchainImagesKHR(config.logicDevice, config.swapChain, &imageCount, config.swapChainImages.data());
 
-        
         config.swapChainImageFormat = surfaceFormat.format;
         config.swapChainExtent = extent;
     }
@@ -168,15 +179,49 @@ namespace ve
         subpass.colorAttachmentCount = 1;
         subpass.pColorAttachments = &colorAttachmentRef;
 
+	    VkSubpassDependency dependency{};
+	    dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+	    dependency.dstSubpass = 0;
+	    dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	    dependency.srcAccessMask = 0;
+	    dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	    dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
         VkRenderPassCreateInfo renderPassInfo{};
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
         renderPassInfo.attachmentCount = 1;
         renderPassInfo.pAttachments = &colorAttachment;
         renderPassInfo.subpassCount = 1;
         renderPassInfo.pSubpasses = &subpass;
+	    renderPassInfo.dependencyCount = 1;
+	    renderPassInfo.pDependencies = &dependency;
 
         if (vkCreateRenderPass(config.logicDevice, &renderPassInfo, nullptr, &config.renderPass) != VK_SUCCESS) {
             throw std::runtime_error("failed to create render pass!");
         }
     }
+
+    void ve_swapChain::createFramebuffers() {
+
+	    config.swapChainFramebuffers.resize(config.swapChainImageViews.size());
+
+	    for (size_t i = 0; i < config.swapChainImageViews.size(); i++) {
+	        VkImageView attachments[] = {
+	            config.swapChainImageViews[i]
+            };
+
+	        VkFramebufferCreateInfo framebufferInfo{};
+	        framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+	        framebufferInfo.renderPass = config.renderPass;
+	        framebufferInfo.attachmentCount = 1;
+	        framebufferInfo.pAttachments = attachments;
+	        framebufferInfo.width = config.swapChainExtent.width;
+	        framebufferInfo.height = config.swapChainExtent.height;
+	        framebufferInfo.layers = 1;
+
+	        if (vkCreateFramebuffer(config.logicDevice, &framebufferInfo, nullptr, &config.swapChainFramebuffers[i]) != VK_SUCCESS) {
+	            throw std::runtime_error("failed to create framebuffer!");
+	        }
+	    }
+	}
 }

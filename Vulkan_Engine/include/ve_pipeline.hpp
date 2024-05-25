@@ -8,24 +8,21 @@ namespace ve
     struct PipelineConfigInfo {
         VkViewport viewport;
         VkRect2D scissor;
-        VkPipelineDynamicStateCreateInfo dynamicState;
-        VkPipelineVertexInputStateCreateInfo vertexInputInfo;
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
         VkPipelineRasterizationStateCreateInfo rasterizationInfo;
         VkPipelineMultisampleStateCreateInfo multisampleInfo;
         VkPipelineColorBlendAttachmentState colorBlendAttachment;
         VkPipelineColorBlendStateCreateInfo colorBlendInfo;
-        VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
+        VkPipelineDynamicStateCreateInfo dynamicStates;
     };
 
     class ve_pipeline
     {
     public:
-    	ve_pipeline(ve_configuration& config);
-        ~ve_pipeline();
+    	ve_pipeline(ve_configuration& config, PipelineConfigInfo& configInfo);
 
     	void createGraphicsPipeline(PipelineConfigInfo& pipelineInfo);
-        PipelineConfigInfo createPipelineConfiguration();
+        static PipelineConfigInfo createPipelineConfiguration(ve_configuration& config);
 
 	private:
         static std::vector<char> readFile(const std::string& filename);

@@ -7,6 +7,8 @@
 #include "ve_swapChain.hpp"
 #include "ve_pipeline.hpp"
 #include <cstring>
+#include <memory>
+
 
 namespace ve
 {
@@ -26,6 +28,7 @@ namespace ve
 		std::vector<const char*> getRequiredExtensions();
 		void setupDebugMessenger();
 
+		std::unique_ptr<ve_pipeline> vulkanPipeline;
 		ve_configuration& config;
 	};
 

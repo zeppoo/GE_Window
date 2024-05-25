@@ -1,5 +1,4 @@
 #include "ve_window.hpp"
-
 namespace ve {
 
     ve_window::ve_window(ve_configuration& config) : config{config}
@@ -33,10 +32,10 @@ namespace ve {
         }
     }
 
-    void ve_window::windowLoop() {
+    void ve_window::windowLoop(ve_device device) {
         while (!glfwWindowShouldClose(config.window)) {
             glfwPollEvents();
-            glfwSwapBuffers(config.window);
+            device.drawFrame();
         }
     }
 
@@ -47,4 +46,8 @@ namespace ve {
             throw std::runtime_error("Failed to create window surface");
         }
     }
+
+
+
+
 }

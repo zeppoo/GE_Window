@@ -1,12 +1,9 @@
-#include "../../include/ve_pipeline.hpp"
+#include "ve_pipeline.hpp"
 
 namespace ve {
 
-    ve_pipeline::ve_pipeline(ve_configuration& config) : config{config} {}
-
-    ve_pipeline::~ve_pipeline() {
-        vkDestroyShaderModule(config.logicDevice, fragShaderModule, nullptr);
-        vkDestroyShaderModule(config.logicDevice, vertShaderModule, nullptr);
+    ve_pipeline::ve_pipeline(ve_configuration& config, PipelineConfigInfo& configInfo) : config{config} {
+        createGraphicsPipeline(configInfo);
     }
 
     std::vector<char> ve_pipeline::readFile(const std::string& filepath) {
@@ -34,6 +31,20 @@ namespace ve {
 
         VkPipelineShaderStageCreateInfo shaderStages[] = {vertShaderStageInfo, fragShaderStageInfo};
 
+        VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
+        vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+        vertexInputInfo.vertexAttributeDescriptionCount = 0;
+        vertexInputInfo.vertexBindingDescriptionCount = 0;
+        vertexInputInfo.pVertexAttributeDescriptions = nullptr;
+        vertexInputInfo.pVertexBindingDescriptions = nullptr;
+
+        VkPipelineViewportStateCreateInfo viewportInfo{};
+        viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+        viewportInfo.viewportCount = 1;
+        viewportInfo.pViewports = &configInfo.viewport;
+        viewportInfo.scissorCount = 1;
+        viewportInfo.pScissors = &configInfo.scissor;
+
         VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
         pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
         pipelineLayoutInfo.setLayoutCount = 0; // Optional
@@ -45,44 +56,32 @@ namespace ve {
             throw std::runtime_error("failed to create pipeline layout!");
         }
 
-        VkPipelineViewportStateCreateInfo viewportInfo{};
-        viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-        viewportInfo.viewportCount = 1;
-        viewportInfo.pViewports = &configInfo.viewport;
-        viewportInfo.scissorCount = 1;
-        viewportInfo.pScissors = &configInfo.scissor;
-
         VkGraphicsPipelineCreateInfo pipelineInfo{};
         pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
         pipelineInfo.stageCount = 2;
         pipelineInfo.pStages = shaderStages;
-        pipelineInfo.pVertexInputState = &configInfo.vertexInputInfo;
+        pipelineInfo.pVertexInputState = &vertexInputInfo;
         pipelineInfo.pInputAssemblyState = &configInfo.inputAssemblyInfo;
         pipelineInfo.pViewportState = &viewportInfo;
         pipelineInfo.pRasterizationState = &configInfo.rasterizationInfo;
         pipelineInfo.pMultisampleState = &configInfo.multisampleInfo;
         pipelineInfo.pColorBlendState = &configInfo.colorBlendInfo;
         pipelineInfo.pDepthStencilState = nullptr;
-        pipelineInfo.pDynamicState = &configInfo.dynamicState;
+        pipelineInfo.pDynamicState = &configInfo.dynamicStates;
 
         pipelineInfo.layout = config.pipelineLayout;
         pipelineInfo.renderPass = config.renderPass;
         pipelineInfo.subpass = 0;
+        pipelineInfo.basePipelineIndex = -1;
+        pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
-        VkResult result = vkCreateGraphicsPipelines(config.logicDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &config.graphicsPipeline);
-        if (result != VK_SUCCESS) {
-            switch (result) {
-                case VK_ERROR_OUT_OF_HOST_MEMORY:
-                    throw std::runtime_error("failed to create graphics pipeline: out of host memory!");
-                case VK_ERROR_OUT_OF_DEVICE_MEMORY:
-                    throw std::runtime_error("failed to create graphics pipeline: out of device memory!");
-                case VK_ERROR_INITIALIZATION_FAILED:
-                    throw std::runtime_error("failed to create graphics pipeline: initialization failed!");
-                // Add other error codes as necessary
-                default:
-                    throw std::runtime_error("failed to create graphics pipeline: unknown error!");
-            }
+        if (vkCreateGraphicsPipelines(config.logicDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &config.graphicsPipeline) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create graphics pipeline");
         }
+        std::cout << "pipeline created" << "\n";
+
+        vkDestroyShaderModule(config.logicDevice, fragShaderModule, nullptr);
+        vkDestroyShaderModule(config.logicDevice, vertShaderModule, nullptr);
     }
 
     VkShaderModule ve_pipeline::createShaderModule(const std::vector<char>& code)
@@ -122,7 +121,7 @@ namespace ve {
         return fragShaderStageInfo;
     }
 
-    PipelineConfigInfo ve_pipeline::createPipelineConfiguration() {
+    PipelineConfigInfo ve_pipeline::createPipelineConfiguration(ve_configuration& config) {
         PipelineConfigInfo configInfo{};
 
         configInfo.inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -180,16 +179,10 @@ namespace ve {
         configInfo.colorBlendInfo.blendConstants[2] = 0.0f;  // Optional
         configInfo.colorBlendInfo.blendConstants[3] = 0.0f;  // Optional
 
-        configInfo.depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-        configInfo.depthStencilInfo.depthTestEnable = VK_TRUE;
-        configInfo.depthStencilInfo.depthWriteEnable = VK_TRUE;
-        configInfo.depthStencilInfo.depthCompareOp = VK_COMPARE_OP_LESS;
-        configInfo.depthStencilInfo.depthBoundsTestEnable = VK_FALSE;
-        configInfo.depthStencilInfo.minDepthBounds = 0.0f;  // Optional
-        configInfo.depthStencilInfo.maxDepthBounds = 1.0f;  // Optional
-        configInfo.depthStencilInfo.stencilTestEnable = VK_FALSE;
-        configInfo.depthStencilInfo.front = {};  // Optional
-        configInfo.depthStencilInfo.back = {};   // Optional
+
+        configInfo.dynamicStates.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+        configInfo.dynamicStates.dynamicStateCount = static_cast<uint32_t>(config.dynamicStates.size());
+        configInfo.dynamicStates.pDynamicStates = config.dynamicStates.data();
 
         return configInfo;
     }

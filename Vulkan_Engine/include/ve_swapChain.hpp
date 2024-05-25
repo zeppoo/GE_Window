@@ -24,6 +24,7 @@ namespace ve
 		void createSwapChain();
         void createImageViews();
         void createRenderPass();
+		void createFramebuffers();
 
 	private:
 		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);

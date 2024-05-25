@@ -14,13 +14,16 @@ namespace ve {
     public:
         ve_configuration(const uint32_t w, const uint32_t h, const std::string name);
 
+    	const int MAX_FRAMES_IN_FLIGHT;
+    	uint32_t currentFrame = 0;
+
         uint32_t WIN_WIDTH;// Window Height
         uint32_t WIN_HEIGHT;// Window Width
         std::string NAME;// Window name
         GLFWwindow* window;// GLFW window reference (pointer)
         VkInstance vkInstance; // Vk Api instance
         VkDebugUtilsMessengerEXT debugMessenger;// Vulkan Debug Messenger Extension instance
-        VkPhysicalDevice physicDevice  = VK_NULL_HANDLE;// Physical GPU Reference
+        VkPhysicalDevice physicDevice;// Physical GPU Reference
         VkDevice logicDevice;// the translator between the Family Queues and the GPU
         VkSurfaceKHR surface;// A surface which fully proccesed images will be shown on
 		VkSwapchainKHR swapChain;// basically a queue of fully proccesed images waiting to be shown
@@ -31,6 +34,12 @@ namespace ve {
     	VkRenderPass renderPass;
         VkPipelineLayout pipelineLayout;
     	VkPipeline graphicsPipeline;
+    	std::vector<VkFramebuffer> swapChainFramebuffers;
+    	VkCommandPool commandPool;
+    	std::vector<VkCommandBuffer> commandBuffers;
+    	std::vector<VkSemaphore> imageAvailableSemaphores;
+    	std::vector<VkSemaphore> renderFinishedSemaphores;
+    	std::vector<VkFence> inFlightFences;
         std::vector<const char*> validationLayers  = { "VK_LAYER_KHRONOS_validation" };// Some default validation Layers from Khronos
         std::vector<const char*> deviceExtensions  = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
         std::vector<VkImage> swapChainImages;// VkImages stored in the swapchain
