@@ -1,8 +1,10 @@
 #include "ve_configuration.hpp"
 #include "ve_engine.hpp"
+
 #include <iostream>
 #include <cstdlib>
 #include <stdexcept>
+#include <memory>
 
 int main()
 {
@@ -11,7 +13,7 @@ int main()
 	ve::ve_engine vulkanEngine{ config };
 
 	try {
-		vulkanEngine.initEngine(&vulkanEngine);
+		vulkanEngine.initEngine();
 
 	} catch (const std::exception &e)
 	{

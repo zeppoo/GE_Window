@@ -3,24 +3,7 @@
 
 namespace ve
 {
-	ve_engine::ve_engine(ve_configuration& config) : config{config}
-	{
-		initGLFW();
-		try {
-			initVULKAN();
-		}
-		catch (const std::exception&) {
-			if (config.vkInstance != VK_NULL_HANDLE) {
-				vkDestroyInstance(config.vkInstance, nullptr);
-			}
-			glfwTerminate();
-			throw;
-		}
-		if(config.enableValidationLayers)
-		{
-			setupDebugMessenger();
-		}
-	}
+	ve_engine::ve_engine(ve_configuration& config) : config{config} {}
 
 	ve_engine::~ve_engine()
 	{
@@ -59,30 +42,36 @@ namespace ve
 		glfwTerminate();
 	}
 
-	void ve_engine::initEngine(ve_engine* vkEngine)
+	void ve_engine::initEngine()
 	{
 		// Create Window
 		ve_window window{ config };
-
-		// Gets GPU and creates Logical Device
+        // Gets GPU and creates Logical Device
         ve_device device{config};
-        device.pickPhysicalDevice();// first
-        device.createLogicalDevice();// second
+        // Create Swapchain
+        ve_swapChain swap_chain{config};
+        // Initialize pipeline settings and create Graphics Pipeline
+        auto pipelineInfo = ve_pipeline::createPipelineConfiguration(config);
+        ve_pipeline vulkanPipeline{config, pipelineInfo};
 
-		// Instantiate Swapchain
-		ve_swapChain swap_chain{config};
+        if(config.enableValidationLayers)
+        {
+            setupDebugMessenger();
+        }
+
+        // Wrong order of calling might result in SEGGV
+        initGLFW();
+        initVULKAN();
+        device.pickPhysicalDevice();
+        device.createLogicalDevice();
 		swap_chain.createSwapChain();
 		swap_chain.createImageViews();
 		swap_chain.createRenderPass();
-
-		auto pipelineInfo = ve_pipeline::createPipelineConfiguration(config);
-		vulkanPipeline = std::make_unique<ve_pipeline>(config, pipelineInfo);
-
+        vulkanPipeline.createGraphicsPipeline();
 		swap_chain.createFramebuffers();
 		device.createCommandPool();
 		device.createCommandBuffer();
 		device.createSyncObjects();
-
 		window.windowLoop(device);
 	}
 
@@ -92,15 +81,14 @@ namespace ve
 			std::cerr << "Failed to initialize GLFW\n";
 			return;
 		}
-
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	}
 
 	void ve_engine::initVULKAN()
 	{
-		if (config.enableValidationLayers && !checkValidationLayerSupport()) {
-			throw std::runtime_error("validation layers requested, but not available!");
-		}
+        if (config.enableValidationLayers && !checkValidationLayerSupport()) {
+            throw std::runtime_error("validation layers requested, but not available!");
+        }
 
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -122,7 +110,6 @@ namespace ve
 		if (config.enableValidationLayers) {
 			createInfo.enabledLayerCount = static_cast<uint32_t>(config.validationLayers.size());
 			createInfo.ppEnabledLayerNames = config.validationLayers.data();
-
 			populateDebugMessengerCreateInfo(debugCreateInfo);
 			createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT *)&debugCreateInfo;
 		} else {
@@ -130,53 +117,56 @@ namespace ve
 			createInfo.pNext = nullptr;
 		}
 
-		if (vkCreateInstance(&createInfo, nullptr, &config.vkInstance) != VK_SUCCESS) {
-			throw std::runtime_error("Failed to create Vulkan instance");
-		}
+        if (vkCreateInstance(&createInfo, nullptr, &config.vkInstance) != VK_SUCCESS) {
+            vkDestroyInstance(config.vkInstance, nullptr);
+            glfwDestroyWindow(config.window);
+            glfwTerminate();
+            throw std::runtime_error("Failed to create Vulkan instance");
+        }
 	}
 
-	bool ve_engine::checkValidationLayerSupport() {
+	bool ve_engine::checkValidationLayerSupport()
+    {
+        uint32_t layerCount;
+        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
-    uint32_t layerCount;
-    vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+        std::vector<VkLayerProperties> availableLayers(layerCount);
+        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-    std::vector<VkLayerProperties> availableLayers(layerCount);
-    vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+        for (const char* layerName : config.validationLayers) {
+        bool layerFound = false;
 
-    for (const char* layerName : config.validationLayers) {
-    bool layerFound = false;
+            for (const auto& layerProperties : availableLayers) {
+                if (strcmp(layerName, layerProperties.layerName) == 0) {
+                    layerFound = true;
+                    break;
+                }
+            }
 
-		for (const auto& layerProperties : availableLayers) {
-			if (strcmp(layerName, layerProperties.layerName) == 0) {
-				layerFound = true;
-				break;
-			}
-		}
-
-		if (!layerFound) {
-			return false;
-		}
-	}
+            if (!layerFound) {
+                return false;
+            }
+        }
 
 	return true;
 	}
 
-	std::vector<const char*> ve_engine::getRequiredExtensions() {
+	std::vector<const char*> ve_engine::getRequiredExtensions()
+    {
+        uint32_t glfwExtensionCount = 0;
+        const char** glfwExtensions;
+        glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
-    uint32_t glfwExtensionCount = 0;
-    const char** glfwExtensions;
-    glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+        std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-    std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+        if (config.enableValidationLayers) {
+            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        }
 
-    if (config.enableValidationLayers) {
-        extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-    }
-
-    return extensions;
+        return extensions;
 }
 
-	void ve_engine::setupDebugMessenger() 
+	void ve_engine::setupDebugMessenger()
 	{
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
 		populateDebugMessengerCreateInfo(createInfo);

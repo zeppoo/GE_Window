@@ -32,22 +32,18 @@ namespace ve {
         }
     }
 
+    void ve_window::createWindowSurface()
+    {
+        if (glfwCreateWindowSurface(config.vkInstance, config.window, nullptr, &config.surface) != VK_SUCCESS)
+        {
+            throw std::runtime_error("Failed to create window surface");
+        }
+    }
+
     void ve_window::windowLoop(ve_device device) {
         while (!glfwWindowShouldClose(config.window)) {
             glfwPollEvents();
             device.drawFrame();
         }
     }
-
-    void ve_window::createWindowSurface() 
-    {
-        if (glfwCreateWindowSurface(config.vkInstance, config.window, nullptr, &config.surface) != VK_SUCCESS) 
-        {
-            throw std::runtime_error("Failed to create window surface");
-        }
-    }
-
-
-
-
 }

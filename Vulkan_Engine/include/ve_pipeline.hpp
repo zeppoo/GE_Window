@@ -8,6 +8,7 @@ namespace ve
     struct PipelineConfigInfo {
         VkViewport viewport;
         VkRect2D scissor;
+        VkPipelineVertexInputStateCreateInfo vertexInputInfo;
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
         VkPipelineRasterizationStateCreateInfo rasterizationInfo;
         VkPipelineMultisampleStateCreateInfo multisampleInfo;
@@ -21,7 +22,7 @@ namespace ve
     public:
     	ve_pipeline(ve_configuration& config, PipelineConfigInfo& configInfo);
 
-    	void createGraphicsPipeline(PipelineConfigInfo& pipelineInfo);
+    	void createGraphicsPipeline();
         static PipelineConfigInfo createPipelineConfiguration(ve_configuration& config);
 
 	private:
@@ -31,6 +32,7 @@ namespace ve
         VkPipelineShaderStageCreateInfo createFragShaderStageInfo(VkShaderModule module);
 
 		ve_configuration& config;
+        PipelineConfigInfo& configInfo;
         VkShaderModule vertShaderModule;
         VkShaderModule fragShaderModule;
     };
