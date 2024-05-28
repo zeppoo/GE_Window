@@ -44,6 +44,8 @@ namespace ve
 
 	void ve_engine::initEngine()
 	{
+        initGLFW();
+        initVULKAN();
 		// Create Window
 		ve_window window{ config };
         // Gets GPU and creates Logical Device
@@ -60,8 +62,6 @@ namespace ve
         }
 
         // Wrong order of calling might result in SEGGV
-        initGLFW();
-        initVULKAN();
         device.pickPhysicalDevice();
         device.createLogicalDevice();
 		swap_chain.createSwapChain();

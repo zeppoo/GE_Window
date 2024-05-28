@@ -20,6 +20,5 @@ int main()
 		std::cerr << "Error in main: " << e.what() << '\n';
 		return EXIT_FAILURE;
 	}
-
 	return EXIT_SUCCESS;
 }

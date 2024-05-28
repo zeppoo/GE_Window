@@ -160,10 +160,6 @@ namespace ve
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
         renderPassInfo.renderPass = config.renderPass;
 
-        // Debug print for imageIndex and swapChainFramebuffers size
-        std::cout << "imageIndex: " << imageIndex << std::endl;
-        std::cout << "swapChainFramebuffers size: " << config.swapChainFramebuffers.size() << std::endl;
-
         // Ensure imageIndex is within bounds
         if (imageIndex >= config.swapChainFramebuffers.size()) {
             throw std::runtime_error("imageIndex out of bounds!");
