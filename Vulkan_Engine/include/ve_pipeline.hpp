@@ -1,39 +1,18 @@
 #pragma once
 
-#include "ve_configuration.hpp"
+#include "ve_globals.hpp"
+#include "ve_utilities.hpp"
 #include <fstream>
 
 namespace ve
 {
-    struct PipelineConfigInfo {
-        VkViewport viewport;
-        VkRect2D scissor;
-        VkPipelineVertexInputStateCreateInfo vertexInputInfo;
-        VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
-        VkPipelineRasterizationStateCreateInfo rasterizationInfo;
-        VkPipelineMultisampleStateCreateInfo multisampleInfo;
-        VkPipelineColorBlendAttachmentState colorBlendAttachment;
-        VkPipelineColorBlendStateCreateInfo colorBlendInfo;
-        VkPipelineDynamicStateCreateInfo dynamicStates;
-    };
+    void createGraphicsPipeline(PipelineConfigInfo& configInfo);
 
-    class ve_pipeline
-    {
-    public:
-    	ve_pipeline(ve_configuration& config, PipelineConfigInfo& configInfo);
+    static std::vector<char> readFile(const std::string &filename);
 
-    	void createGraphicsPipeline();
-        static PipelineConfigInfo createPipelineConfiguration(ve_configuration& config);
+    static VkShaderModule createShaderModule(const std::vector<char> &code);
 
-	private:
-        static std::vector<char> readFile(const std::string& filename);
-        VkShaderModule createShaderModule(const std::vector<char>& code);
-        VkPipelineShaderStageCreateInfo createVertShaderStageInfo(VkShaderModule module);
-        VkPipelineShaderStageCreateInfo createFragShaderStageInfo(VkShaderModule module);
+    static VkPipelineShaderStageCreateInfo createVertShaderStageInfo(VkShaderModule module);
 
-		ve_configuration& config;
-        PipelineConfigInfo& configInfo;
-        VkShaderModule vertShaderModule;
-        VkShaderModule fragShaderModule;
-    };
+    static VkPipelineShaderStageCreateInfo createFragShaderStageInfo(VkShaderModule module);
 }

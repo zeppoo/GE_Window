@@ -1,49 +1,45 @@
 #include "ve_window.hpp"
-namespace ve {
+#include "ve_device.hpp"
 
-    ve_window::ve_window(ve_configuration& config) : config{config}
+namespace ve
+{
+  void initWindow()
+  {
+    createWindow();
+    createWindowSurface();
+  }
+
+  void createWindow()
+  {
+    window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, NAME.c_str(), nullptr, nullptr);
+    if (!window)
     {
-        try {
-            createWindow();
-            createWindowSurface();
-        }
-        catch (const std::exception&) {
-            // Clean up GLFW resources before rethrowing
-            if (config.window) {
-                glfwDestroyWindow(config.window);
-            }
-            glfwTerminate();
-            throw; // Rethrow the current exception
-        }
+      std::cerr << "Failed to create GLFW window\n";
+      glfwTerminate();
+      return;
     }
+  }
 
-    ve_window::~ve_window() {
-        glfwDestroyWindow(config.window);
-        glfwTerminate();
-    }
-
-    void ve_window::createWindow()
+  void createWindowSurface()
+  {
+    if (glfwCreateWindowSurface(vkInstance, window, nullptr, &surface) != VK_SUCCESS)
     {
-        config.window = glfwCreateWindow(config.WIN_WIDTH, config.WIN_HEIGHT, config.NAME.c_str(), nullptr, nullptr);
-        if (!config.window) {
-            std::cerr << "Failed to create GLFW window\n";
-            glfwTerminate();
-            return;
-        }
+      throw std::runtime_error("Failed to create window surface");
     }
+    glfwSetWindowUserPointer(window, window);
+    glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
+  }
 
-    void ve_window::createWindowSurface()
+  static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
+    framebufferResized = true;
+  }
+
+  void windowLoop()
+  {
+    while (!glfwWindowShouldClose(window))
     {
-        if (glfwCreateWindowSurface(config.vkInstance, config.window, nullptr, &config.surface) != VK_SUCCESS)
-        {
-            throw std::runtime_error("Failed to create window surface");
-        }
+      glfwPollEvents();
+      drawFrame();
     }
-
-    void ve_window::windowLoop(ve_device device) {
-        while (!glfwWindowShouldClose(config.window)) {
-            glfwPollEvents();
-            device.drawFrame();
-        }
-    }
+  }
 }

@@ -1,16 +1,16 @@
-#include "ve_configuration.hpp"
+#include "ve_globals.hpp"
 #include "ve_engine.hpp"
-
 #include <iostream>
 #include <cstdlib>
 #include <stdexcept>
-#include <memory>
 
 int main()
 {
-	ve::ve_configuration config{800, 600, "Lil Vulky"};
+  ve::WIN_WIDTH = 800;
+  ve::WIN_HEIGHT = 600;
+  ve::NAME = "Little Vulkan";
 
-	ve::ve_engine vulkanEngine{ config };
+	ve::ve_engine vulkanEngine;
 
 	try {
 		vulkanEngine.initEngine();

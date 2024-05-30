@@ -1,38 +1,21 @@
 #pragma once
 
-#include "ve_configuration.hpp"
-#include <vector>
+#include "ve_globals.hpp"
+#include "ve_utilities.hpp"
 
 namespace ve
 {
-	struct SwapChainSupportDetails {
+    void createSwapChain();
 
-    VkSurfaceCapabilitiesKHR capabilities;
+    void createImageViews();
 
-    std::vector<VkSurfaceFormatKHR> formats;
-    std::vector<VkPresentModeKHR> presentModes;
+    void createRenderPass();
 
-    };
+    void createFramebuffers();
 
-    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface);
+    static VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
 
+    static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
 
-	class ve_swapChain {
-	public:
-		ve_swapChain(ve_configuration& config);
-
-		void createSwapChain();
-        void createImageViews();
-        void createRenderPass();
-		void createFramebuffers();
-
-	private:
-		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-		VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-		VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
-
-		ve_configuration& config;
-	};
-
-
+    static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 }

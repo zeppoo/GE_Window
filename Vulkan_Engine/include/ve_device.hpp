@@ -1,37 +1,26 @@
 #pragma once
 
-#include "ve_configuration.hpp"
-#include <optional>
+#include "ve_globals.hpp"
+#include "ve_utilities.hpp"
 
 namespace ve
 {
-    struct QueueFamilyIndices {
-        std::optional<uint32_t> graphicsFamily;
-        std::optional<uint32_t> presentFamily;
+    void pickPhysicalDevice();
 
-        bool isComplete() {
-            return graphicsFamily.has_value() && presentFamily.has_value();
-        }
-    };
+    void createLogicalDevice();
 
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicDevice, VkSurfaceKHR surface);
+    void createCommandPool();
 
-    class ve_device
-    {
-    public:
-        ve_device(ve_configuration& config);
-        void pickPhysicalDevice();
-        void createLogicalDevice();
-        void createCommandPool();
-        void createCommandBuffer();
-        void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
-        void createSyncObjects();
-        void drawFrame();
+    void createCommandBuffer();
 
-    private:
-        bool isDeviceSuitable(VkPhysicalDevice device);
-        bool checkDeviceExtensionSupport(VkPhysicalDevice physicDevice);
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
-        ve_configuration& config;
-    };
+    void createSyncObjects();
+
+    void drawFrame();
+
+    static bool isDeviceSuitable(VkPhysicalDevice device);
+
+    static bool checkDeviceExtensionSupport(VkPhysicalDevice physicDevice);
+
 }

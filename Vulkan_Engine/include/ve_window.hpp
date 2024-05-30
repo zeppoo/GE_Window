@@ -1,24 +1,17 @@
 #pragma once
 
-#include "ve_configuration.hpp"
-#include "ve_device.hpp"
+#include "ve_globals.hpp"
 
-namespace ve {
+namespace ve
+{
+    void initWindow();
 
-class ve_window {
+    void windowLoop();
 
-public:
-    ve_window(ve_configuration& config);
-    ~ve_window();
+    static void createWindow();
 
-    void windowLoop(ve_device device);
+    static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
 
-private:
-
-    void createWindow();
-    void createWindowSurface();
-
-    ve_configuration& config;
-};
+    static void createWindowSurface();
 }
 

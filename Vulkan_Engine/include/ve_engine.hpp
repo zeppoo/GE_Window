@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ve_configuration.hpp"
+#include "ve_globals.hpp"
 #include "ve_debugMessenger.hpp"
 #include "ve_window.hpp"
 #include "ve_device.hpp"
@@ -10,23 +10,18 @@
 
 namespace ve
 {
-	class ve_engine
-	{
-	public:
-		ve_engine(ve_configuration& config);
-		~ve_engine();
+  class ve_engine
+  {
+  public:
+    void initEngine();
 
-		void initEngine();
-
-	private:
-
-		void initGLFW();
-		void initVULKAN();
-		bool checkValidationLayerSupport();
-		std::vector<const char*> getRequiredExtensions();
-		void setupDebugMessenger();
-
-		ve_configuration& config;
-	};
+  private:
+    void Cleanup();
+    void initGLFW();
+    void initVULKAN();
+    bool checkValidationLayerSupport();
+    std::vector<const char *> getRequiredExtensions();
+    void setupDebugMessenger();
+  };
 
 }
