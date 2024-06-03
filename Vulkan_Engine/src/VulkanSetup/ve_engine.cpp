@@ -14,16 +14,24 @@ namespace ve
     vkDeviceWaitIdle(logicDevice);
     cleanupSwapChain();
 
+    vkDestroyPipeline(logicDevice, graphicsPipeline, nullptr);
+    vkDestroyPipelineLayout(logicDevice, pipelineLayout, nullptr);
+    vkDestroyRenderPass(logicDevice, renderPass, nullptr);
+
+    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+      vkDestroyBuffer(logicDevice, uniformBuffers[i], nullptr);
+      vkFreeMemory(logicDevice, uniformBuffersMemory[i], nullptr);
+    }
+
+    vkDestroyDescriptorPool(logicDevice, descriptorPool, nullptr);
+
+    vkDestroyDescriptorSetLayout(logicDevice, descriptorSetLayout, nullptr);
+
     vkDestroyBuffer(logicDevice, indexBuffer, nullptr);
     vkFreeMemory(logicDevice, indexBufferMemory, nullptr);
 
     vkDestroyBuffer(logicDevice, vertexBuffer, nullptr);
     vkFreeMemory(logicDevice, vertexBufferMemory, nullptr);
-
-    vkDestroyPipeline(logicDevice, graphicsPipeline, nullptr);
-    vkDestroyPipelineLayout(logicDevice, pipelineLayout, nullptr);
-
-    vkDestroyRenderPass(logicDevice, renderPass, nullptr);
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
       vkDestroySemaphore(logicDevice, renderFinishedSemaphores[i], nullptr);
@@ -64,12 +72,19 @@ namespace ve
     createSwapChain();
     createImageViews();
     createRenderPass();
+    //
+    createDescriptorSetLayout();
     auto pipelineInfo = createPipelineConfiguration();
     createGraphicsPipeline(pipelineInfo);
+    //
     createFramebuffers();
     createCommandPool();
     createVertexBuffer();
     createIndexBuffer();
+    createUniformBuffers();
+    createDescriptorPool();
+    createDescriptorSets();
+    //
     createCommandBuffer();
     createSyncObjects();
 

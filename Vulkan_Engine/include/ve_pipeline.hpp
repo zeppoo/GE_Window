@@ -7,6 +7,12 @@ namespace ve
 {
     void createGraphicsPipeline(PipelineConfigInfo& configInfo);
 
+    void createDescriptorSetLayout();
+
+    void createDescriptorPool();
+
+    void createDescriptorSets();
+
     static std::vector<char> readFile(const std::string &filename);
 
     static VkShaderModule createShaderModule(const std::vector<char> &code);

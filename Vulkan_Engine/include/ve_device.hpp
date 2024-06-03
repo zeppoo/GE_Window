@@ -20,4 +20,6 @@ namespace ve {
   static bool isDeviceSuitable(VkPhysicalDevice device);
 
   static bool checkDeviceExtensionSupport(VkPhysicalDevice physicDevice);
+
+  static void updateUniformBuffer(uint32_t currentImage);
 }

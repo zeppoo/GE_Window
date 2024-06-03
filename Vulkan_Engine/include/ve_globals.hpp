@@ -27,6 +27,9 @@ namespace ve
   extern VkDevice logicDevice;
 
   // Vulkan Graphics pipeline
+  extern VkDescriptorSetLayout descriptorSetLayout;
+  extern VkDescriptorPool descriptorPool;
+  extern std::vector<VkDescriptorSet> descriptorSets;
   extern VkPipelineLayout pipelineLayout;
   extern VkPipeline graphicsPipeline;
   extern VkQueue graphicsQueue;
@@ -45,6 +48,9 @@ namespace ve
   extern VkDeviceMemory vertexBufferMemory;
   extern VkBuffer indexBuffer;
   extern VkDeviceMemory indexBufferMemory;
+  extern std::vector<VkBuffer> uniformBuffers;
+  extern std::vector<VkDeviceMemory> uniformBuffersMemory;
+  extern std::vector<void*> uniformBuffersMapped;
   extern VkCommandPool commandPool;
   extern std::vector<VkFramebuffer> swapChainFramebuffers;
   extern std::vector<VkCommandBuffer> commandBuffers;

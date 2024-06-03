@@ -34,9 +34,17 @@ namespace ve {
     }
   };
 
+  struct UniformBufferObject {
+    alignas(16) glm::mat4 model;
+    alignas(16) glm::mat4 view;
+    alignas(16) glm::mat4 proj;
+  };
+
   void createVertexBuffer();
 
   void createIndexBuffer();
+
+  void createUniformBuffers();
 
   static void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 

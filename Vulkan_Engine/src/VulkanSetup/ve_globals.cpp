@@ -15,6 +15,9 @@ namespace ve {
     VkPhysicalDevice physicDevice = VK_NULL_HANDLE; // Physical GPU reference
     VkDevice logicDevice; // Logical device
 
+    VkDescriptorSetLayout descriptorSetLayout;
+    VkDescriptorPool descriptorPool;
+    std::vector<VkDescriptorSet> descriptorSets;
     VkPipelineLayout pipelineLayout; // Pipeline layout
     VkPipeline graphicsPipeline; // Graphics pipeline
     VkQueue graphicsQueue; // Queue for rendering images
@@ -31,6 +34,9 @@ namespace ve {
     VkDeviceMemory vertexBufferMemory;
     VkBuffer indexBuffer;
     VkDeviceMemory indexBufferMemory;
+    std::vector<VkBuffer> uniformBuffers;
+    std::vector<VkDeviceMemory> uniformBuffersMemory;
+    std::vector<void*> uniformBuffersMapped;
     VkCommandPool commandPool; // Command pool
     std::vector<VkFramebuffer> swapChainFramebuffers; // Framebuffers for the swapchain
     std::vector<VkCommandBuffer> commandBuffers; // Command buffers
