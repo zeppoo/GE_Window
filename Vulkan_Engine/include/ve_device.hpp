@@ -1,26 +1,23 @@
 #pragma once
 
 #include "ve_globals.hpp"
-#include "ve_utilities.hpp"
 
-namespace ve
-{
-    void pickPhysicalDevice();
+namespace ve {
+  void pickPhysicalDevice();
 
-    void createLogicalDevice();
+  void createLogicalDevice();
 
-    void createCommandPool();
+  void createCommandPool();
 
-    void createCommandBuffer();
+  void createCommandBuffer();
 
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+  void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
-    void createSyncObjects();
+  void createSyncObjects();
 
-    void drawFrame();
+  void drawFrame();
 
-    static bool isDeviceSuitable(VkPhysicalDevice device);
+  static bool isDeviceSuitable(VkPhysicalDevice device);
 
-    static bool checkDeviceExtensionSupport(VkPhysicalDevice physicDevice);
-
+  static bool checkDeviceExtensionSupport(VkPhysicalDevice physicDevice);
 }

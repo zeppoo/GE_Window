@@ -74,12 +74,6 @@ namespace ve
     configInfo.inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     configInfo.inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
 
-    configInfo.vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-    configInfo.vertexInputInfo.vertexAttributeDescriptionCount = 0;
-    configInfo.vertexInputInfo.vertexBindingDescriptionCount = 0;
-    configInfo.vertexInputInfo.pVertexAttributeDescriptions = nullptr;
-    configInfo.vertexInputInfo.pVertexBindingDescriptions = nullptr;
-
     configInfo.viewport.x = 0.0f;
     configInfo.viewport.y = 0.0f;
     configInfo.viewport.width = static_cast<float>(swapChainExtent.width);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ve_globals.hpp"
+#include <glm/glm.hpp>
 #include <optional>
 
 namespace ve
@@ -24,7 +25,6 @@ namespace ve
   {
     VkViewport viewport;
     VkRect2D scissor;
-    VkPipelineVertexInputStateCreateInfo vertexInputInfo;
     VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
     VkPipelineRasterizationStateCreateInfo rasterizationInfo;
     VkPipelineMultisampleStateCreateInfo multisampleInfo;

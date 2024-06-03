@@ -1,10 +1,24 @@
 #include "ve_engine.hpp"
+#include "ve_globals.hpp"
+#include "ve_debugMessenger.hpp"
+#include "ve_window.hpp"
+#include "ve_device.hpp"
+#include "ve_swapChain.hpp"
+#include "ve_shaderBuffers.hpp"
+#include <cstring>
 
 namespace ve
 {
   void ve_engine::Cleanup()
   {
+    vkDeviceWaitIdle(logicDevice);
     cleanupSwapChain();
+
+    vkDestroyBuffer(logicDevice, indexBuffer, nullptr);
+    vkFreeMemory(logicDevice, indexBufferMemory, nullptr);
+
+    vkDestroyBuffer(logicDevice, vertexBuffer, nullptr);
+    vkFreeMemory(logicDevice, vertexBufferMemory, nullptr);
 
     vkDestroyPipeline(logicDevice, graphicsPipeline, nullptr);
     vkDestroyPipelineLayout(logicDevice, pipelineLayout, nullptr);
@@ -54,6 +68,8 @@ namespace ve
     createGraphicsPipeline(pipelineInfo);
     createFramebuffers();
     createCommandPool();
+    createVertexBuffer();
+    createIndexBuffer();
     createCommandBuffer();
     createSyncObjects();
 

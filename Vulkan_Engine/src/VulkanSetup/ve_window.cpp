@@ -9,7 +9,16 @@ namespace ve
     createWindowSurface();
   }
 
-  void createWindow()
+  void windowLoop()
+  {
+    while (!glfwWindowShouldClose(window))
+    {
+      glfwPollEvents();
+      drawFrame();
+    }
+  }
+
+  static void createWindow()
   {
     window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, NAME.c_str(), nullptr, nullptr);
     if (!window)
@@ -20,7 +29,7 @@ namespace ve
     }
   }
 
-  void createWindowSurface()
+  static void createWindowSurface()
   {
     if (glfwCreateWindowSurface(vkInstance, window, nullptr, &surface) != VK_SUCCESS)
     {
@@ -32,14 +41,5 @@ namespace ve
 
   static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
     framebufferResized = true;
-  }
-
-  void windowLoop()
-  {
-    while (!glfwWindowShouldClose(window))
-    {
-      glfwPollEvents();
-      drawFrame();
-    }
   }
 }

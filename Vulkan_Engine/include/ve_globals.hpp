@@ -13,33 +13,48 @@ namespace ve
   extern const int MAX_FRAMES_IN_FLIGHT;
   extern uint32_t currentFrame;
 
-  extern uint32_t WIN_WIDTH; // Window Height
-  extern uint32_t WIN_HEIGHT; // Window Width
-  extern std::string NAME; // Window name
-  extern GLFWwindow *window; // GLFW window reference (pointer)
-  extern VkInstance vkInstance; // Vk Api instance
-  extern VkDebugUtilsMessengerEXT debugMessenger; // Vulkan Debug Messenger Extension instance
-  extern VkPhysicalDevice physicDevice; // Physical GPU Reference
-  extern VkDevice logicDevice; // the translator between the Family Queues and the GPU
-  extern VkSurfaceKHR surface; // A surface which fully processed images will be shown on
-  extern VkSwapchainKHR swapChain; // basically a queue of fully processed images waiting to be shown
-  extern VkFormat swapChainImageFormat; // To cache our image format
-  extern VkExtent2D swapChainExtent; // To cache our surface extent
-  extern VkQueue graphicsQueue; // Queue for rendering images
-  extern VkQueue presentQueue; // Queue for presenting rendered frames
-  extern VkRenderPass renderPass;
+  //Window Data
+  extern uint32_t WIN_WIDTH;
+  extern uint32_t WIN_HEIGHT;
+  extern std::string NAME;
+  extern GLFWwindow *window;
+  extern VkSurfaceKHR surface;
+
+  //Vulkan Device
+  extern VkInstance vkInstance;
+  extern VkDebugUtilsMessengerEXT debugMessenger;
+  extern VkPhysicalDevice physicDevice;
+  extern VkDevice logicDevice;
+
+  // Vulkan Graphics pipeline
   extern VkPipelineLayout pipelineLayout;
   extern VkPipeline graphicsPipeline;
-  extern std::vector<VkFramebuffer> swapChainFramebuffers;
+  extern VkQueue graphicsQueue;
+  extern VkRenderPass renderPass;
+
+  // Vulkan SwapChain
+  extern VkSwapchainKHR swapChain;
+  extern VkFormat swapChainImageFormat;
+  extern VkExtent2D swapChainExtent;
+  extern std::vector<VkImage> swapChainImages;
+  extern std::vector<VkImageView> swapChainImageViews;
+  extern VkQueue presentQueue;
+
+  // Vulkan Buffers
+  extern VkBuffer vertexBuffer;
+  extern VkDeviceMemory vertexBufferMemory;
+  extern VkBuffer indexBuffer;
+  extern VkDeviceMemory indexBufferMemory;
   extern VkCommandPool commandPool;
+  extern std::vector<VkFramebuffer> swapChainFramebuffers;
   extern std::vector<VkCommandBuffer> commandBuffers;
+
+  // Vulkan Utilities and more
   extern std::vector<VkSemaphore> imageAvailableSemaphores;
   extern std::vector<VkSemaphore> renderFinishedSemaphores;
   extern std::vector<VkFence> inFlightFences;
   extern std::vector<const char *> validationLayers;
   extern std::vector<const char *> deviceExtensions;
-  extern std::vector<VkImage> swapChainImages;
-  extern std::vector<VkImageView> swapChainImageViews;
   extern std::vector<VkDynamicState> dynamicStates;
   extern bool framebufferResized;
 

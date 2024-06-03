@@ -1,13 +1,15 @@
 #include "ve_pipeline.hpp"
+#include "ve_shaderBuffers.hpp"
+#include <fstream>
 
 namespace ve
 {
   void createGraphicsPipeline(PipelineConfigInfo& configInfo)
   {
     auto vertShaderCode = readFile(
-        "C://Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/src/shaders/shader.vert.spv");
+        "D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/src/shaders/shader.vert.spv");
     auto fragShaderCode = readFile(
-        "C://Users/ReinV/Personal/Coding/C++/Projects/GE_Window/Vulkan_Engine/src/shaders/shader.frag.spv");
+        "D:/Rein/Coding/C++/Projects/GE_Window/Vulkan_Engine/src/shaders/shader.frag.spv");
 
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
     VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
@@ -16,6 +18,16 @@ namespace ve
     VkPipelineShaderStageCreateInfo fragShaderStageInfo = createFragShaderStageInfo(fragShaderModule);
 
     VkPipelineShaderStageCreateInfo shaderStages[] = {vertShaderStageInfo, fragShaderStageInfo};
+
+    VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
+    vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+    auto bindingDescription = Vertex::getBindingDescription();
+    auto attributeDescriptions = Vertex::getAttributeDescriptions();
+
+    vertexInputInfo.vertexBindingDescriptionCount = 1;
+    vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+    vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+    vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
     VkPipelineViewportStateCreateInfo viewportInfo{};
     viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -40,7 +52,7 @@ namespace ve
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
     pipelineInfo.stageCount = 2;
     pipelineInfo.pStages = shaderStages;
-    pipelineInfo.pVertexInputState = &configInfo.vertexInputInfo;
+    pipelineInfo.pVertexInputState = &vertexInputInfo;
     pipelineInfo.pInputAssemblyState = &configInfo.inputAssemblyInfo;
     pipelineInfo.pViewportState = &viewportInfo;
     pipelineInfo.pRasterizationState = &configInfo.rasterizationInfo;
@@ -65,7 +77,7 @@ namespace ve
     vkDestroyShaderModule(logicDevice, vertShaderModule, nullptr);
   }
 
-  std::vector<char> readFile(const std::string &filepath)
+  static std::vector<char> readFile(const std::string &filepath)
   {
     std::ifstream file{filepath, std::ios::ate | std::ios::binary};
     if (!file.is_open())

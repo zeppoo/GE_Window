@@ -6,9 +6,9 @@
 
 int main()
 {
-  ve::WIN_WIDTH = 800;
-  ve::WIN_HEIGHT = 600;
-  ve::NAME = "Little Vulkan";
+  ve::WIN_WIDTH = 1000;
+  ve::WIN_HEIGHT = 800;
+  ve::NAME = "Vulkan";
 
 	ve::ve_engine vulkanEngine;
 
