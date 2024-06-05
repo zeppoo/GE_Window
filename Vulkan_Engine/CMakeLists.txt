@@ -11,9 +11,6 @@ endif()
 
 project("Vulkan_Engine")
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
 
 # Set Source Files
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")

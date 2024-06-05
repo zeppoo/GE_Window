@@ -1,5 +1,7 @@
 #include "ve_pipeline.hpp"
 #include "ve_shaderBuffers.hpp"
+
+#include <istream>
 #include <fstream>
 
 namespace ve
@@ -62,7 +64,6 @@ namespace ve
     pipelineInfo.layout = pipelineLayout;
     pipelineInfo.renderPass = renderPass;
     pipelineInfo.subpass = 0;
-    pipelineInfo.basePipelineIndex = -1;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
     if (vkCreateGraphicsPipelines(logicDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr,
